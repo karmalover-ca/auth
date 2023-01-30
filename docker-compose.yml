@@ -1,0 +1,40 @@
+services:
+  bot:
+    image: node:latest
+    restart: on-failure
+    command: sh -c "yarn install && yarn run dev"
+    ports:
+      - 5005:5050
+    working_dir: /website-backend
+    volumes:
+      - ./:/website-backend
+    environment:
+      MONGODB_URI: mongodb://root:password@mongodb
+      EXPRESS_PORT: 5050
+      LOG_FILE: ./auth.log
+      PASSWORD_SALT: ${PASSWORD_SALT}
+      PRODUCTION: ${PRODUCTION}
+    depends_on:
+      - mongodb
+    networks:
+      website:
+        ipv4_address: 172.15.0.2
+  mongodb:
+    image: mongo:latest
+    restart: on-failure
+    volumes:
+      - volven-auth-mongo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    networks:
+      website:
+        ipv4_address: 172.15.0.3
+volumes:
+  volven-auth-mongo:
+
+networks:
+  website:
+    ipam:
+      config:
+        - subnet: 172.15.0.0/16

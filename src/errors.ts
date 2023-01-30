@@ -1,0 +1,17 @@
+export const MALFORMED_LOGIN_REQUEST = {"error": "malformed_login_request", "error_description": "missing username or password body parameters"};
+export const INCORRECT_USER_CREDENTIALS = {"error": "incorrect_user_credentials", "error_description": "incorrect username or password"};
+export const INVALID_TOKEN = {"error": "invalid_token", "error_description": "invalid access token"};
+export const MISSING_PERMISSIONS = {"error": "missing_permissions", "error_description": "missing permissions to execute action"};
+export const MISSING_TOKEN = {"error": "missing_auth_token", "error_description": "missing authentication token"};
+export const USER_EXISTS = {"error": "user_exists", "error_description": "user already exists"};
+export const ADD_USER_FAILED = {"error": "add_user_failed", "error_description": "adding user failed"};
+export const EDIT_USER_FAILED = {"error": "edit_user_failed", "error_description": "editing user failed"};
+export const MALFORMED_PASSWORD_CHANGE = {"error": "malformed_password_change", "error_description": "missing password field"};
+export const PASSWORD_CHANGE_FAILED = {"error": "password_change_failed", "error_description": "password change failed"};
+export const LOGOUT_FAILED = {"error": "logout_failed", "error_description": "logout failed."};
+export const MISSING_USERNAME = {"error": "missing_username", "error_description": "missing username field"};
+export const USER_NOT_EXISTS = {"error": "user_not_exists", "error_description": "user not found"};
+export const DELETE_USER_FAILED = {"error": "delete_user_failed", "error_description": "user deletion failed"};
+export const PURGE_TOKENS_FAILED = {"error": "purge_tokens_failed", "error_description": "token purging failed"};
+export const LIST_USERS_FAILED = {"error": "list_users_failed", "error_description": "listing users failed"};
+export const MALFORMED_SIGNUP_REQUEST = {"error": "malformed_signup_request", "error_description": "missing username, password, name, or email parameters"};
