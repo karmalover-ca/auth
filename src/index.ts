@@ -4,7 +4,7 @@ import { userMiddleware, User, AuthToken, ScopesRaw } from "./auth/auth_middlewa
 import bodyParser from "body-parser";
 import { addUser, usersCollection } from "./database";
 import cors from "cors";
-import { createHmac, randomBytes } from "crypto";
+import { createHmac } from "crypto";
 import { LOGGER, VERSION } from "./constants";
 
 const port = process.env.PORT || 5050;

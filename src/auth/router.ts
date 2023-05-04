@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { createHmac, randomBytes } from "crypto";
 import * as Errors from "../errors";
-import { addAccessToken, addUser, deleteUser, getUserByName, purgeAccessTokens, removeAccessToken, updateUser, listUsers, usersCollection } from "../database";
-import { AuthToken, User, ScopesRaw } from "./auth_middleware";
+import { addAccessToken, addUser, deleteUser, getUserByName, purgeAccessTokens, removeAccessToken, updateUser, listUsers} from "../database";
+import { AuthToken, User} from "./auth_middleware";
 import { ERequest } from "..";
 import { LOGGER } from "../constants";
 
@@ -68,7 +68,10 @@ router.post("/signup", async (req: ERequest, res) => {
         name: name
     }
 
-    if(await addUser(newUser)) return res.status(201).send({username: newUser.username});
+    if(await addUser(newUser)) {
+        notifyOfSignup(newUser.name);
+        return res.status(201).send({username: newUser.username});
+    }
     return res.status(500).send(Errors.ADD_USER_FAILED);
 })
 
@@ -193,6 +196,12 @@ function includesAll(array: any[], items: any[]) {
         contains = contains && array.includes(item);
     }
     return contains;
+}
+
+function notifyOfSignup(username: string) {
+    LOGGER.info(username + " just signed up;")
+
+    //TODO add webhook maybe but not now because im lazy
 }
 
 export default router;
