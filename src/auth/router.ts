@@ -44,8 +44,7 @@ router.post("/create", async (req: ERequest, res) => {
         username: body.username,
         password_hash: hmac.update(body.password).digest("hex"),
         scopes: body.scopes,
-        name: body.name || "",
-        creator: req.user.username
+        name: body.name || ""
     };
 
     if(await addUser(newUser)) return res.status(201).send({username: newUser.username});
@@ -65,9 +64,8 @@ router.post("/signup", async (req: ERequest, res) => {
     const newUser: User = {
         username: username,
         password_hash: hmac.update(password).digest("hex"),
-        scopes: [ "website.default" ],
-        name: name,
-        creator: "signup"
+        scopes: [ "users.default" ],
+        name: name
     }
 
     if(await addUser(newUser)) return res.status(201).send({username: newUser.username});
@@ -81,7 +79,7 @@ router.post("/delete", async(req: ERequest, res) => {
 
     const user = await getUserByName(req.body.username);
     if(!user) return res.status(404).send(Errors.USER_NOT_EXISTS);
-    const canDelete = (req.user.scopes.includes("users.delete.all") || user.creator == req.user.username) && user.username != "karma";
+    const canDelete = user.name == req.user.name && user.username != "admin";
 
     if(!canDelete) return res.status(403).send(Errors.MISSING_PERMISSIONS);
 
@@ -157,7 +155,7 @@ router.patch("/edit", async (req: ERequest, res) => {
 
     const user = await getUserByName(req.body.username);
     if(!user) return res.status(404).send(Errors.USER_NOT_EXISTS);
-    const canEdit = (req.user.scopes.includes("users.edit.all") || user.creator == req.user.username || req.user == req.body.username) && user.username != "karma";
+    const canEdit = (req.user.scopes.includes("users.edit.all") || req.user == req.body.username) && user.username != "karma";
     if(!canEdit) return res.status(403).send(Errors.MISSING_PERMISSIONS);
     
     const hmac = createHmac("sha256", process.env.PASSWORD_SALT || "");
@@ -168,7 +166,6 @@ router.patch("/edit", async (req: ERequest, res) => {
         user.scopes = req.body.scopes;
     }
     if(req.body.name) user.name = req.body.name;
-    if(req.body.creator) user.creator = req.body.creator;
 
     if(await updateUser(user)) return res.status(201).send({username: user.username});
     return res.status(500).send(Errors.EDIT_USER_FAILED);

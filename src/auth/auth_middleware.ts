@@ -27,7 +27,6 @@ export interface User {
     username: string;
     name: string;
     password_hash: string;
-    creator: string;
 }
 
 export interface AuthToken {
@@ -36,10 +35,9 @@ export interface AuthToken {
     created_at: number;
 }
 
-const scopes = ["users.create" , "users.list" , "users.edit" , "users.delete" , "users.delete.all" , "users.edit.all", "website.default"] as const;
+const scopes = ["users.create" , "users.list" , "users.edit" , "users.delete" , "users.delete.all" , "users.edit.all", "users.default"] as const;
 
 export type Scope = typeof scopes[number];
-
 
 const ScopesRaw = scopes.map(v => v);
 export { ScopesRaw };

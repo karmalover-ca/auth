@@ -35,10 +35,8 @@ app.listen(port , async () => {
             username: "karma",
             password_hash: hmac.update("ThisIsAPassword456").digest("hex"),
             scopes: ScopesRaw,
-            name: "KarmaLover",
-            creator: "system",
-            email: "karma@karmalover.ca"
-        };
+            name: "KarmaLover"
+        }
 
         await addUser(karma).catch(LOGGER.error);
         LOGGER.info("Created user karma with password ThisIsAPassword456")
