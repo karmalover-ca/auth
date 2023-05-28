@@ -4,7 +4,7 @@ services:
     restart: on-failure
     command: sh -c "yarn install && yarn run dev"
     ports:
-      - 5005:5050
+      - 5050:5050
     working_dir: /website-backend
     volumes:
       - ./:/website-backend
